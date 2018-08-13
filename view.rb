@@ -6,4 +6,8 @@ class View
     return gets.chomp
   end
 
+  def build(something)
+    puts something
+  end
+
 end

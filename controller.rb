@@ -26,4 +26,12 @@ class Controller
     harmonica_key = find_harp_key(song_key, position)
     @view.ask_user("You'll be playing a #{harmonica_key} harmonica.")
   end
+
+  def draw
+    harmonica_key = @view.ask_user("What's the key of the harmonica?")
+    layout = harmonica_drawer(harmonica_key)
+    @view.build(layout)
+  end
+
+
 end
