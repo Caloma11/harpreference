@@ -111,66 +111,76 @@ def harmonica_drawer(key)
   return stringarr
 end
 
-def bend_blow_holes(array)
+# def bend_blow_holes(array)
+#   holes_hash = {}
+#   array.each_with_index do |note, index|
+#     unless note == "-"
+#       holes_hash["#{index + 1}"] = note
+#     end
+#   end
+#   return holes_hash
+# end
+
+# def blow_holes(array)
+#   holes_hash = {}
+#   array.each_with_index do |note, index|
+#     unless note == "-"
+#       holes_hash["#{index + 1}"] = note
+#     end
+#   end
+#   return holes_hash
+# end
+
+# def draw_holes(array)
+#   holes_hash = {}
+#   array.each_with_index do |note, index|
+#     unless note == "-"
+#       holes_hash["-#{index + 1}"] = note
+#     end
+#   end
+#   return holes_hash
+# end
+
+# def bend_draw_holes(array)
+#   holes_hash = {}
+#   array.each_with_index do |note, index|
+#     unless note == "-"
+#       holes_hash["-#{index + 1}'"] = note
+#     end
+#   end
+#   return holes_hash
+# end
+
+# def w_bend_draw_holes(array)
+#   holes_hash = {}
+#   array.each_with_index do |note, index|
+#     unless note == "-"
+#       holes_hash["-#{index + 1}''"] = note
+#     end
+#   end
+#   return holes_hash
+# end
+
+# def wh_bend_draw_holes(array)
+#   holes_hash = {}
+#   array.each_with_index do |note, index|
+#     unless note == "-"
+#       holes_hash["-#{index + 1}'''"] = note
+#     end
+#   end
+#   return holes_hash
+# end
+
+def holes(array, options = {})
   holes_hash = {}
   array.each_with_index do |note, index|
     unless note == "-"
-      holes_hash["#{index + 1}"] = note
+      holes_hash["#{options[:draw]}#{index+1}#{options[:bend]}"] = note
+
     end
   end
   return holes_hash
 end
-
-def blow_holes(array)
-  holes_hash = {}
-  array.each_with_index do |note, index|
-    unless note == "-"
-      holes_hash["#{index + 1}"] = note
-    end
-  end
-  return holes_hash
-end
-
-def draw_holes(array)
-  holes_hash = {}
-  array.each_with_index do |note, index|
-    unless note == "-"
-      holes_hash["-#{index + 1}"] = note
-    end
-  end
-  return holes_hash
-end
-
-def bend_draw_holes(array)
-  holes_hash = {}
-  array.each_with_index do |note, index|
-    unless note == "-"
-      holes_hash["-#{index + 1}'"] = note
-    end
-  end
-  return holes_hash
-end
-
-def w_bend_draw_holes(array)
-  holes_hash = {}
-  array.each_with_index do |note, index|
-    unless note == "-"
-      holes_hash["-#{index + 1}''"] = note
-    end
-  end
-  return holes_hash
-end
-
-def wh_bend_draw_holes(array)
-  holes_hash = {}
-  array.each_with_index do |note, index|
-    unless note == "-"
-      holes_hash["-#{index + 1}'''"] = note
-    end
-  end
-  return holes_hash
-end
-
 
 def harmonica_hash_drawer(key)
 
@@ -186,17 +196,17 @@ def harmonica_hash_drawer(key)
   w_bend_draw_intervals = ["-", 5, 9, "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
   wh_bend_draw_intervals = ["-", "-", 8, "-", "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
 
-  hash1 = bend_blow_holes(bend_blow_intervals)
+  hash1 = holes(bend_blow_intervals, {bend: "'"})
 
-  hash2 = blow_holes(blow_notes_intervals)
+  hash2 = holes(blow_notes_intervals)
 
-  hash3 = draw_holes(draw_notes_intervals)
+  hash3 = holes(draw_notes_intervals, {draw: "-"})
 
-  hash4 = bend_draw_holes(bend_draw_intervals)
+  hash4 = holes(bend_draw_intervals, {draw: "-", bend: "'"})
 
-  hash5 = w_bend_draw_holes(w_bend_draw_intervals)
+  hash5 = holes(w_bend_draw_intervals, {draw: "-", bend: "''"})
 
-  hash6 = wh_bend_draw_holes(wh_bend_draw_intervals)
+  hash6 = holes(wh_bend_draw_intervals, {draw: "-", bend: "'''"})
 
   notes_hash = hash1.merge(hash2).merge(hash3).merge(hash4).merge(hash5).merge(hash6)
 
@@ -230,13 +240,3 @@ end
 
 
 
-def holes(array, options = {})
-  holes_hash = {}
-  array.each_with_index do |note, index|
-    unless note == "-"
-      holes_hash["#{options[:draw]}#{index+1}#{options[:bend]}"] = note
-
-    end
-  end
-  return holes_hash
-end
