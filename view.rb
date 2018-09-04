@@ -3,7 +3,7 @@ class View
   def ask_user(question)
     puts "#{question}"
     print "> "
-    return gets.chomp
+    return gets.chomp.capitalize
   end
 
   def build(something)
