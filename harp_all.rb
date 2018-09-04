@@ -111,9 +111,98 @@ def harmonica_drawer(key)
   return stringarr
 end
 
-# puts harmonica_drawer('Eb')
+def bend_blow_holes(array)
+  holes_hash = {}
+  array.each_with_index do |note, index|
+    unless note == "-"
+      holes_hash["#{index + 1}"] = note
+    end
+  end
+  return holes_hash
+end
+
+def blow_holes(array)
+  holes_hash = {}
+  array.each_with_index do |note, index|
+    unless note == "-"
+      holes_hash["#{index + 1}"] = note
+    end
+  end
+  return holes_hash
+end
+
+def draw_holes(array)
+  holes_hash = {}
+  array.each_with_index do |note, index|
+    unless note == "-"
+      holes_hash["-#{index + 1}"] = note
+    end
+  end
+  return holes_hash
+end
+
+def bend_draw_holes(array)
+  holes_hash = {}
+  array.each_with_index do |note, index|
+    unless note == "-"
+      holes_hash["-#{index + 1}'"] = note
+    end
+  end
+  return holes_hash
+end
+
+def w_bend_draw_holes(array)
+  holes_hash = {}
+  array.each_with_index do |note, index|
+    unless note == "-"
+      holes_hash["-#{index + 1}''"] = note
+    end
+  end
+  return holes_hash
+end
+
+def wh_bend_draw_holes(array)
+  holes_hash = {}
+  array.each_with_index do |note, index|
+    unless note == "-"
+      holes_hash["-#{index + 1}'''"] = note
+    end
+  end
+  return holes_hash
+end
 
 
+def harmonica_hash_drawer(key)
+
+  major_scale = scale_halfsteps(key, SCALES_INTERVALS[:major_scale])
+  chromatic_scale = reorder_any_scale(["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"], key)
+
+  bend_blow_intervals = ["-", "-", "-", "-", "-", "-", "-", 3, 6, 11].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
+
+  blow_notes_intervals = [1, 3, 5, 1, 3, 5, 1, 3, 5, 1].map { |interval| major_scale[interval - 1] }
+  draw_notes_intervals = [2, 5, 7, 2, 4, 6, 7, 2, 4, 6].map { |interval| major_scale[interval - 1] }
+
+  bend_draw_intervals = [1, 6, 10, 1, "-", 8, "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
+  w_bend_draw_intervals = ["-", 5, 9, "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
+  wh_bend_draw_intervals = ["-", "-", 8, "-", "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
+
+  hash1 = bend_blow_holes(bend_blow_intervals)
+
+  hash2 = blow_holes(blow_notes_intervals)
+
+  hash3 = draw_holes(draw_notes_intervals)
+
+  hash4 = bend_draw_holes(bend_draw_intervals)
+
+  hash5 = w_bend_draw_holes(w_bend_draw_intervals)
+
+  hash6 = wh_bend_draw_holes(wh_bend_draw_intervals)
+
+  notes_hash = hash1.merge(hash2).merge(hash3).merge(hash4).merge(hash5).merge(hash6)
+
+  return notes_hash
+
+end
 
 
 # C harmonica layout
