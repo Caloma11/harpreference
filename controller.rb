@@ -33,5 +33,19 @@ class Controller
     @view.build(layout)
   end
 
+  def guess
+    harmonica_key = ["C", "G", "D", "A", "E", "B", "Gb", "Db", "Ab", "Eb","Bb", "F"].sample
+    harmonica_hole = ["-10", "-9", "-8", "-7", "-6", "-5", "-4", "-3",
+                      "-2", "-1", "0", "1", "2", "3", "4", "5", "6",
+                      "7", "8", "9", "10", "-1'", "-2'", "-2''", "-3'",
+                      "-3''", "-3'''", "-4'", "-6'", "7'", "8'", "9'", "10'" ].sample
+    holes_hash = harmonica_hash_drawer(harmonica_key)
+    answer = @view.ask_user("What's the note on the #{harmonica_hole} of a #{harmonica_key} harmonica?")
+    if answer == holes_hash[harmonica_hole]
+      puts "Well done!"
+    else
+      puts "Better luck next time."
+    end
+  end
 
 end

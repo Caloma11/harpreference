@@ -230,3 +230,13 @@ end
 
 
 
+def holes(array, options = {})
+  holes_hash = {}
+  array.each_with_index do |note, index|
+    unless note == "-"
+      holes_hash["#{options[:draw]}#{index+1}#{options[:bend]}"] = note
+
+    end
+  end
+  return holes_hash
+end

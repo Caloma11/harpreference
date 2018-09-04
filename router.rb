@@ -24,9 +24,10 @@ def run
     when 2 then @controller.position
     when 3 then @controller.harmonica
     when 4 then @controller.draw
-    when 5 then stop
+    when 5 then @controller.guess
+    when 6 then stop
     else
-      puts "Please press 1, 2, 3, 4 or 5"
+      puts "Please press 1, 2, 3, 4, 5 or 6"
     end
   end
 
@@ -41,6 +42,7 @@ def run
     puts "2 - Position to play when you have one harmonica and know the song key"
     puts "3 - Harmonica key, for when you know the song key and the position in which it's played"
     puts "4 - Draw a harmonica in any key"
-    puts "5 - Stop and exit the program"
+    puts "5 - Play the guess the note game"
+    puts "6 - Stop and exit the program"
   end
 end
