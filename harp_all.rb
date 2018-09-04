@@ -30,11 +30,21 @@
     return scale
   end
 
+  # Reorders scale
+
+  def circle_scale(key)
+      scale = ["C", "G", "D", "A", "E", "B", "Gb", "Db", "Ab", "Eb","Bb", "F"]
+      while scale[0] != key
+      scale.insert(0, scale.pop)
+    end
+    return scale
+  end
+
 
   # Finds the harmonica key for a given song key and a given harmonica "position"
 
   def find_harp_key(song_key, position)
-    scale = reorder_scale(song_key)
+    scale = circle_scale(song_key)
     return scale[-(position.to_i - 1)]
   end
 
@@ -42,7 +52,7 @@
   # Finds the song key for a given harmonica key and a given harmonica "position"
 
   def find_song_key(harp_key, position)
-    scale = reorder_scale(harp_key)
+    scale = circle_scale(harp_key)
     return scale[position - 1]
   end
 
@@ -50,7 +60,7 @@
   # Finds the harmonica "position" for a given harmonica key and a given song key
 
   def find_position(song_key, harp_key)
-    scale = reorder_scale(harp_key)
+    scale = circle_scale(harp_key)
     return  scale.find_index(song_key) + 1
   end
 
