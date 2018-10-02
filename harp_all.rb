@@ -90,6 +90,7 @@ def harmonica_drawer(key)
   major_scale = scale_halfsteps(key, SCALES_INTERVALS[:major_scale])
   chromatic_scale = reorder_any_scale(["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"], key)
 
+  w_bend_blow_intervals = ["-", "-", "-", "-", "-", "-", "-", "-", "-", 10 ].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
   bend_blow_intervals = ["-", "-", "-", "-", "-", "-", "-", 3, 6, 11].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
 
   blow_notes_intervals = [1, 3, 5, 1, 3, 5, 1, 3, 5, 1].map { |interval| major_scale[interval - 1] }
@@ -99,7 +100,7 @@ def harmonica_drawer(key)
   w_bend_draw_intervals = ["-", 5, 9, "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
   wh_bend_draw_intervals = ["-", "-", 8, "-", "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
 
-  harmonarray = [bend_blow_intervals, blow_notes_intervals, draw_notes_intervals,
+  harmonarray = [w_bend_blow_intervals, bend_blow_intervals, blow_notes_intervals, draw_notes_intervals,
   bend_draw_intervals, w_bend_draw_intervals, wh_bend_draw_intervals]
 
   stringarr = []
@@ -187,6 +188,7 @@ def harmonica_hash_drawer(key)
   major_scale = scale_halfsteps(key, SCALES_INTERVALS[:major_scale])
   chromatic_scale = reorder_any_scale(["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"], key)
 
+  w_bend_blow_intervals = ["-", "-", "-", "-", "-", "-", "-", "-", "-", 10 ].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
   bend_blow_intervals = ["-", "-", "-", "-", "-", "-", "-", 3, 6, 11].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
 
   blow_notes_intervals = [1, 3, 5, 1, 3, 5, 1, 3, 5, 1].map { |interval| major_scale[interval - 1] }
@@ -196,24 +198,67 @@ def harmonica_hash_drawer(key)
   w_bend_draw_intervals = ["-", 5, 9, "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
   wh_bend_draw_intervals = ["-", "-", 8, "-", "-", "-", "-", "-", "-", "-", "-"].map { |interval| (interval == "-" ? interval : chromatic_scale[interval]) }
 
-  hash1 = holes(bend_blow_intervals, {bend: "'"})
+  hash1 = holes(w_bend_blow_intervals, {bend: "''"})
 
-  hash2 = holes(blow_notes_intervals)
+  hash2 = holes(bend_blow_intervals, {bend: "'"})
 
-  hash3 = holes(draw_notes_intervals, {draw: "-"})
+  hash3 = holes(blow_notes_intervals)
 
-  hash4 = holes(bend_draw_intervals, {draw: "-", bend: "'"})
+  hash4 = holes(draw_notes_intervals, {draw: "-"})
 
-  hash5 = holes(w_bend_draw_intervals, {draw: "-", bend: "''"})
+  hash5 = holes(bend_draw_intervals, {draw: "-", bend: "'"})
 
-  hash6 = holes(wh_bend_draw_intervals, {draw: "-", bend: "'''"})
+  hash6 = holes(w_bend_draw_intervals, {draw: "-", bend: "''"})
 
-  notes_hash = hash1.merge(hash2).merge(hash3).merge(hash4).merge(hash5).merge(hash6)
+  hash7 = holes(wh_bend_draw_intervals, {draw: "-", bend: "'''"})
+
+  notes_hash = hash1.merge(hash2).merge(hash3).merge(hash4).merge(hash5).merge(hash6).merge(hash7)
 
   return notes_hash
 
 end
 
+
+  # Receives a key and an array of holes
+
+#   holes = ["2", "4", "2", "3'", "2"]
+#   octave = 3
+
+#   def octave_translator(holes, octave)
+#     equivalences =  {
+#       "1" = ["4", "7", "10"],
+#       "2" = ["5", "8"],
+#       "3" = ["6", "9"],
+#       "4" = ["1", "7", "10"],
+#       "5" = ["2", "8"],
+#       "6" = ["-2 (3)", "9"],
+#       "7" = ["-1", "-4", "-8"],
+#       "8" = ["2", "5"],
+#       "9" = ["-2 (3)","6"],
+#       "10" = ["1", "4", "7"],
+#       "-1" = ["-4", "-8"],
+#       "-2" = ["6", "9"],
+#       "-3" = ["-7", "10'"],
+#       "-4" = ["-1", "-8"],
+#       "-5" = ["-2''" "-9"],
+#       "-6" = ["-3''", "-10"],
+#       "-7" = ["-3", "-10"],
+#       "-8" = ["-1", "-4"],
+#       "-9" = ["-5", "-2''"],
+#       "-10" = ["-3''", "-7"],
+#       "-1'" = ["-4'"],
+#       "-2'" = ["9'"],
+#       "-3'" = [],
+#       "-4'" = ["-1'"],
+#       "-6'" = ["-3'''"],
+#       "8'" = [],
+#       "9'" = ["2'"],
+#       "10'" = ["-3", "-7"],
+#       "2''" = ["-5", "-9"],
+#       "3''" = ["-6", "-10"],
+#       "3'''" = ["-6'"]
+#     }
+# end
 
 # C harmonica layout
 
